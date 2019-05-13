@@ -43,6 +43,7 @@ def get_sub_info_list(cid: str, max_retry_times: int = 0):
         for i in range(max_retry_times):
             response = requests.get(url)
             if response.status_code == 200:
+                print(response.text)
                 result_dict = json.loads(response.text)
                 result = result_dict["sublist"]
                 break

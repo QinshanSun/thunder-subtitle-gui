@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFil
     QGroupBox, QHBoxLayout, QLabel, QTableWidget
 from PyQt5.QtGui import QIcon
 
+from thunder_subtitle import thunder_subs
+
 
 class App(QWidget):
 
@@ -17,7 +19,7 @@ class App(QWidget):
         self.file_label = QLabel('选择文件:', self)
         self.file_input = QLineEdit(self)
         self.open_file_button = QPushButton("打开", self)
-        self.result_table = QTableWidget()
+        self.result_table = QTableWidget(25, 6, self)
         self.init_ui()
 
     def init_ui(self):
@@ -34,6 +36,7 @@ class App(QWidget):
         layout.addWidget(self.open_file_button)
         self.horizontal_group_box.setLayout(layout)
         v_layout = QVBoxLayout()
+        self.result_table.setHorizontalHeaderLabels(['Index', 'Rate', 'Votes', 'Language', 'Name', 'URL'])
         v_layout.addWidget(self.horizontal_group_box)
         v_layout.addWidget(self.result_table)
         self.setLayout(v_layout)
@@ -45,8 +48,11 @@ class App(QWidget):
                                                    "All Files (*);;Python Files (*.py)", options=options)
         if file_name:
             print(file_name)
-            #self.horizontal_group_box.findChildren(QLineEdit)[0].setText(file_name)
+            # self.horizontal_group_box.findChildren(QLineEdit)[0].setText(file_name)
             self.file_input.setText(file_name)
+            cid = thunder_subs.cid_hash_file(file_name)
+            info_list = thunder_subs.get_sub_info_list(cid, 1000)
+            return info_list
 
     def open_file_names_dialog(self):
         options = QFileDialog.Options()
@@ -63,13 +69,6 @@ class App(QWidget):
                                                    "All Files (*);;Text Files (*.txt)", options=options)
         if file_name:
             print(file_name)
-
-
-class file_dialog(object):
-
-    def __init__(self):
-        self.__file_label = QLabel('选择文件:')
-        self.__file_path_input = QLineEdit(self)
 
 
 if __name__ == '__main__':
