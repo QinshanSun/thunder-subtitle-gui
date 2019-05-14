@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# coding: utf-8
 import sys
 
 from PyQt5 import QtCore
@@ -61,8 +63,9 @@ class App(QWidget):
             cid = thunder_subs.cid_hash_file(file_name)
             info_list = thunder_subs.get_sub_info_list(cid, 1000)
             if info_list is not None:
-                print("超过最大重试次数后仍然未能获得正确结果")
                 self.set_result_table(info_list)
+            else:
+                print("超过最大重试次数后仍然未能获得正确结果")
             return info_list
 
     def open_file_names_dialog(self):
@@ -84,6 +87,7 @@ class App(QWidget):
             print(file_name)
 
     def set_result_table(self, info_list):
+        self.result_table.clearContents()
         info_list.sort(key=lambda x: x['rate'], reverse=True)
         for i, x in enumerate(info_list, start=0):
             rate_item = QTableWidgetItem(x['rate'])
@@ -100,12 +104,18 @@ class App(QWidget):
     def down_load_subtitle(self, p_x, p_y):
         print("double clicked")
         print(p_x)
-        row_index = self.result_table.currentRow()
         url_tem = self.result_table.item(p_x, 4)
+        movie_file_path_wo_ext = self.file_input.text().rsplit('.', 1)[0]
         if url_tem is not None:
             print(url_tem.text())
             url = url_tem.text()
             data = get_url(url)
+            sub_ext = url.rsplit('.', 1)[1]
+            print(data)
+            sub_file_path = movie_file_path_wo_ext + '.' + sub_ext
+            with open(sub_file_path, 'wb') as f:
+                f.write(data)
+            print('Downloaded {}'.format(sub_file_path))
 
 
 if __name__ == '__main__':

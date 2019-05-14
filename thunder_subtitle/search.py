@@ -82,6 +82,5 @@ def main():
             )
             tb.draw(rows)
 
-
 # if __name__ == '__main__':
 #   main()
