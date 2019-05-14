@@ -2,7 +2,6 @@
 # coding: utf-8
 import urllib.request
 from . import thunder_subs
-from drawtable import Table
 
 
 def search(fp):
