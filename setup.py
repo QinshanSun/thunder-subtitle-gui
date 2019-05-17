@@ -13,19 +13,19 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
 
-gh_repo = 'https://github.com/weaming/thunder-subtitle'
+gh_repo = 'https://github.com/QinshanSun/thunder-subtitle-gui'
 
 setup(
     name='thunder-subtitle',  # Required
 
-    version='0.1.2',  # Required
+    version='0.0.1',  # Required
 
     # This is a one-line description or tagline of what your project does.
     description='下载迅雷看看字幕',  # Required
 
     url=gh_repo,  # Optional
-    author='weaming',  # Optional
-    author_email='garden.yuen@gmail.com',  # Optional
+    author='qinshan',  # Optional
+    author_email='sun.qinshan92@gmail.com',  # Optional
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
 
@@ -39,7 +39,7 @@ setup(
     # Any package you put here will be installed by pip when your project is
     # installed, so they must be valid existing projects.
     install_requires=[
-        'drawtable', 'requests'
+        'requests', 'PyQt5', 'PyQt5-sip', 'urllib3'
     ],  # Optional
 
     # If there are data files included in your packages that need to be
@@ -56,7 +56,7 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'thunder-subtitle=thunder_subtitle.search:main',
+            'thunder-subtitle=thunder_subtitle.main:main',
         ],
     },
 
@@ -64,4 +64,4 @@ setup(
         'Bug Reports': gh_repo,
         'Source': gh_repo,
     },
-    )
+)
