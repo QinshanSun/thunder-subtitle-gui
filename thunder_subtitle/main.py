@@ -26,7 +26,7 @@ class App(QWidget):
         self.file_input = QLineEdit(self)
         self.file_input.setPlaceholderText("选择视频文件")
         self.open_file_button = QPushButton("打开", self)
-        self.result_table = QTableWidget(10, 5, self)
+        self.result_table = QTableWidget(10, 4, self)
         self.init_ui()
 
     def init_ui(self):
@@ -50,7 +50,7 @@ class App(QWidget):
         layout.addWidget(self.open_file_button)
         self.horizontal_group_box.setLayout(layout)
         v_layout = QVBoxLayout()
-        self.result_table.setHorizontalHeaderLabels(['评分', '打分人数', '语言', '名字', '下载地址'])
+        self.result_table.setHorizontalHeaderLabels(['评分', '打分人数', '语言', '名字'])
         self.result_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.result_table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.result_table.cellDoubleClicked.connect(self.down_load_subtitle)
@@ -91,21 +91,22 @@ class App(QWidget):
             vote_item = QTableWidgetItem(str(x['svote']))
             lan_item = QTableWidgetItem(x['language'])
             name_item = QTableWidgetItem(x['sname'])
-            url_item = QTableWidgetItem(x['surl'])
+            name_item.setData(QtCore.Qt.UserRole, x['surl'])
+            # url_item = QTableWidgetItem(x['surl'])
             self.result_table.setItem(i, 0, rate_item)
             self.result_table.setItem(i, 1, vote_item)
             self.result_table.setItem(i, 2, lan_item)
             self.result_table.setItem(i, 3, name_item)
-            self.result_table.setItem(i, 4, url_item)
+            # self.result_table.setItem(i, 4, url_item)
 
     def down_load_subtitle(self, p_x, p_y):
         print("double clicked")
         print(p_x)
-        url_tem = self.result_table.item(p_x, 4)
+        url_tem = self.result_table.item(p_x, 3)
         movie_file_path_wo_ext = self.file_input.text().rsplit('.', 1)[0]
         if url_tem is not None:
             print(url_tem.text())
-            url = url_tem.text()
+            url = url_tem.data
             data = get_url(url)
             sub_ext = url.rsplit('.', 1)[1]
             print(data)
